@@ -2,6 +2,8 @@ using EnterpriseDashboard.Controllers;
 // ลบบรรทัด Microsoft.EntityFrameworkCore ออก เนื่องจากไม่ได้ใช้ In-Memory DB แล้ว
 
 var builder = WebApplication.CreateBuilder(args);
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // 1. เพิ่มบริการ Controllers และ Swagger สำหรับ API
 builder.Services.AddControllers();
