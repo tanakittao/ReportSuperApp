@@ -1,0 +1,362 @@
+{
+  "Version": 1,
+  "Hash": "qp55GJ8hkspta/B741jp5Pr72nm+I630nkKipN0k5hk=",
+  "Source": "EnterpriseDashboard",
+  "BasePath": "_content/EnterpriseDashboard",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "EnterpriseDashboard\\wwwroot",
+      "Source": "EnterpriseDashboard",
+      "ContentRoot": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\",
+      "BasePath": "_content/EnterpriseDashboard",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Release\\net9.0\\compressed\\37mzn414wc-blzaemo5sm.gz",
+      "SourceId": "EnterpriseDashboard",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Release\\net9.0\\compressed\\",
+      "BasePath": "_content/EnterpriseDashboard",
+      "RelativePath": "index#[.{fingerprint=blzaemo5sm}]?.html.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "6k7i7ltqo9",
+      "Integrity": "xiGDEBjFB+gLuWXfKBk2+xbsWhtgoWHtl6HY9x2F2rw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html"
+    },
+    {
+      "Identity": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html",
+      "SourceId": "EnterpriseDashboard",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\",
+      "BasePath": "_content/EnterpriseDashboard",
+      "RelativePath": "index#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "blzaemo5sm",
+      "Integrity": "UYcCPIOkRI+jl9qXWTBr+JHvsSLOB/fLzvIUvfzoduU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "index.blzaemo5sm.html",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Release\\net9.0\\compressed\\37mzn414wc-blzaemo5sm.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000110791048"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9025"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xiGDEBjFB+gLuWXfKBk2+xbsWhtgoWHtl6HY9x2F2rw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Aug 2026 07:00:52 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"UYcCPIOkRI+jl9qXWTBr+JHvsSLOB/fLzvIUvfzoduU=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "blzaemo5sm"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-UYcCPIOkRI+jl9qXWTBr+JHvsSLOB/fLzvIUvfzoduU="
+        }
+      ]
+    },
+    {
+      "Route": "index.blzaemo5sm.html",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "43873"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UYcCPIOkRI+jl9qXWTBr+JHvsSLOB/fLzvIUvfzoduU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Aug 2026 07:00:52 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "blzaemo5sm"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-UYcCPIOkRI+jl9qXWTBr+JHvsSLOB/fLzvIUvfzoduU="
+        }
+      ]
+    },
+    {
+      "Route": "index.blzaemo5sm.html.gz",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Release\\net9.0\\compressed\\37mzn414wc-blzaemo5sm.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9025"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xiGDEBjFB+gLuWXfKBk2+xbsWhtgoWHtl6HY9x2F2rw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Aug 2026 07:00:52 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "blzaemo5sm"
+        },
+        {
+          "Name": "label",
+          "Value": "index.html.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-xiGDEBjFB+gLuWXfKBk2+xbsWhtgoWHtl6HY9x2F2rw="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Release\\net9.0\\compressed\\37mzn414wc-blzaemo5sm.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000110791048"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9025"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xiGDEBjFB+gLuWXfKBk2+xbsWhtgoWHtl6HY9x2F2rw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Aug 2026 07:00:52 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"UYcCPIOkRI+jl9qXWTBr+JHvsSLOB/fLzvIUvfzoduU=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-UYcCPIOkRI+jl9qXWTBr+JHvsSLOB/fLzvIUvfzoduU="
+        }
+      ]
+    },
+    {
+      "Route": "index.html",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "43873"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UYcCPIOkRI+jl9qXWTBr+JHvsSLOB/fLzvIUvfzoduU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Aug 2026 07:00:52 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-UYcCPIOkRI+jl9qXWTBr+JHvsSLOB/fLzvIUvfzoduU="
+        }
+      ]
+    },
+    {
+      "Route": "index.html.gz",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Release\\net9.0\\compressed\\37mzn414wc-blzaemo5sm.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9025"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xiGDEBjFB+gLuWXfKBk2+xbsWhtgoWHtl6HY9x2F2rw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 25 Aug 2026 07:00:52 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xiGDEBjFB+gLuWXfKBk2+xbsWhtgoWHtl6HY9x2F2rw="
+        }
+      ]
+    }
+  ]
+}

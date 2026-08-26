@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.EnterpriseDashboard.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.EnterpriseDashboard.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.EnterpriseDashboard.props",
+      "PackagePath": "build\\EnterpriseDashboard.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.EnterpriseDashboard.props",
+      "PackagePath": "buildMultiTargeting\\EnterpriseDashboard.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.EnterpriseDashboard.props",
+      "PackagePath": "buildTransitive\\EnterpriseDashboard.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
