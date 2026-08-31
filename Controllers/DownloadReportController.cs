@@ -1,11 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace EnterpriseDashboard.Controllers
 {
     /* =======================================================
        1. DTO (Data Transfer Object) - สำหรับส่งข้อมูลกลับไปที่ Dashboard (JSON)
        ======================================================= */
+    public class SubItemDto
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public int StaffCount { get; set; }
+        public int Downloads { get; set; }
+        public int Target { get; set; }
+    }
+
     public class RegionReportDto
     {
         public string Id { get; set; }
@@ -13,9 +21,8 @@ namespace EnterpriseDashboard.Controllers
         public int StaffCount { get; set; }
         public int Downloads { get; set; }
         public int Target { get; set; }
-        public string Platform { get; set; }
         public string Product { get; set; }
-        public string Period { get; set; }
+        public List<SubItemDto> SubItems { get; set; } = new List<SubItemDto>();
     }
 
     /* =======================================================
@@ -27,9 +34,8 @@ namespace EnterpriseDashboard.Controllers
         public string Name { get; set; }
         public int StaffCount { get; set; }
         public int Downloads { get; set; }
-        public string Platform { get; set; }
         public string Product { get; set; }
-        public string Period { get; set; }
+        public List<SubItemDto> SubItems { get; set; } = new List<SubItemDto>();
     }
 
     /* =======================================================
@@ -41,7 +47,7 @@ namespace EnterpriseDashboard.Controllers
     {
         private readonly IConfiguration _configuration;
 
-        // รับแค่ IConfiguration อย่างเดียว (ลบฐานข้อมูลออกไปแล้ว)
+        // รับค่า IConfiguration เพื่อใช้อ่านข้อมูลจาก appsettings.json
         public DownloadReportController(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -51,13 +57,11 @@ namespace EnterpriseDashboard.Controllers
         [HttpGet("regional-summary")]
         public IActionResult GetRegionalSummary(
             [FromQuery] string regionId = "ALL", 
-            [FromQuery] string product = "ALL", 
-            [FromQuery] string period = "2026-Q3", 
-            [FromQuery] string platform = "ALL")
+            [FromQuery] string product = "ALL")
         {
             try
             {
-                // ดึงค่า Config (เป้าหมาย, ยอดดาวน์โหลด, บุคลากร) จาก appsettings.json
+                // ดึงค่า Config (เป้าหมาย, ข้อมูลเขต) จาก appsettings.json
                 var targetPercentage = _configuration.GetValue<double>("TargetConfiguration:TargetPercentage", 100.0);
                 var regionConfigs = _configuration.GetSection("TargetConfiguration:Regions").Get<List<RegionConfigDto>>() ?? new List<RegionConfigDto>();
 
@@ -71,34 +75,36 @@ namespace EnterpriseDashboard.Controllers
                 if (!string.IsNullOrEmpty(product) && product != "ALL")
                     query = query.Where(x => x.Product == product);
                     
-                if (!string.IsNullOrEmpty(period) && period != "ALL")
-                    query = query.Where(x => x.Period == period);
-
-                if (!string.IsNullOrEmpty(platform) && platform != "ALL")
-                    query = query.Where(x => x.Platform == platform);
-
                 /* ============================================================
-                   ✅ วิธีแก้ Error CS0834 : เติม .AsEnumerable() ลงไปก่อน .Select()
-                   เพื่อให้ระบบดึงข้อมูลมาไว้ใน Memory ก่อน แล้วค่อยคำนวณแบบใส่ปีกกา { }
+                   ✅ ใช้ .AsEnumerable() ก่อน .Select() เพื่อป้องกัน Error CS0834 
+                   และให้ระบบคำนวณเป้าหมาย (Target) แบบไดนามิกในหน่วยความจำ
                    ============================================================ */
                 var result = query.AsEnumerable().Select(x => {
                     
-                    // คำนวณเป้าหมายใหม่ (Dynamic Target) = จำนวนบุคลากร * (เปอร์เซ็นต์ / 100)
+                    // คำนวณเป้าหมายเฉพาะเขตหลัก (Dynamic Target)
                     int dynamicTarget = (int)Math.Round(x.StaffCount * (targetPercentage / 100.0));
+
+                    // ดึงข้อมูล SubItems ออกมา (ถ้ามี) และคำนวณเป้าหมายจากเปอร์เซ็นต์ด้วย
+                    var mappedSubItems = x.SubItems?.Select(sub => new SubItemDto {
+                        Id = sub.Id,
+                        Name = sub.Name,
+                        StaffCount = sub.StaffCount,
+                        Downloads = sub.Downloads,
+                        Target = (int)Math.Round(sub.StaffCount * (targetPercentage / 100.0))
+                    }).ToList() ?? new List<SubItemDto>();
 
                     return new RegionReportDto
                     {
                         Id = x.Id,
                         Name = x.Name,
                         StaffCount = x.StaffCount,
-                        Platform = x.Platform,
                         Product = x.Product,
-                        Period = x.Period,
                         Downloads = x.Downloads,
-                        Target = dynamicTarget
+                        Target = dynamicTarget,
+                        SubItems = mappedSubItems
                     };
                 })
-                .OrderByDescending(x => x.Downloads) // เรียงจากยอดดาวน์โหลดมากไปน้อย
+                .OrderByDescending(x => x.Downloads) // เรียงลำดับจากยอดดาวน์โหลดรวมมากไปน้อย
                 .ToList();
 
                 // ส่งข้อมูลกลับเป็น JSON Status 200 OK
@@ -106,7 +112,7 @@ namespace EnterpriseDashboard.Controllers
             }
             catch (Exception ex)
             {
-                // กรณีเกิด Error ส่ง Status 500 กลับไป
+                // กรณีเกิด Error ส่ง Status 500 กลับไปพร้อมข้อความแจ้งเตือน
                 return StatusCode(500, new { message = "เกิดข้อผิดพลาดในการดึงข้อมูล", error = ex.Message });
             }
         }

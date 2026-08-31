@@ -46,4 +46,5 @@ D:\งาน\ข้อมูลAI\SuperApp\EnterpriseDashboard\obj\Debug\net9.0\
 D:\งาน\ข้อมูลAI\SuperApp\EnterpriseDashboard\obj\Debug\net9.0\EnterpriseDashboard.pdb
 D:\งาน\ข้อมูลAI\SuperApp\EnterpriseDashboard\obj\Debug\net9.0\EnterpriseDashboard.genruntimeconfig.cache
 D:\งาน\ข้อมูลAI\SuperApp\EnterpriseDashboard\obj\Debug\net9.0\ref\EnterpriseDashboard.dll
-D:\งาน\ข้อมูลAI\SuperApp\EnterpriseDashboard\obj\Debug\net9.0\compressed\37mzn414wc-blzaemo5sm.gz
+D:\งาน\ข้อมูลAI\SuperApp\EnterpriseDashboard\obj\Debug\net9.0\EnterpriseDashboard.sourcelink.json
+D:\งาน\ข้อมูลAI\SuperApp\EnterpriseDashboard\obj\Debug\net9.0\compressed\37mzn414wc-70nnlksldp.gz

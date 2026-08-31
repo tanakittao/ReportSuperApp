@@ -8,8 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- SheetJS (สำหรับอ่านไฟล์ Excel) -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Google Fonts: Prompt -->
@@ -91,20 +89,14 @@
 
                 <!-- Action Bar Controls -->
                 <div class="flex items-center space-x-3">
-                    <button id="toggle-api-log" class="flex items-center space-x-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-3 py-2 rounded-lg transition-colors">
-                        <i data-lucide="server" class="w-4 h-4 text-emerald-600"></i>
-                        <span class="hidden sm:inline">Backend API Log</span>
-                        <span id="api-status-badge" class="px-1.5 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-700 rounded">200 OK</span>
-                    </button>
                     <button id="toggle-dotnet-code" class="flex items-center space-x-1.5 text-xs font-medium text-dotnet-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-3 py-2 rounded-lg transition-colors">
                         <i data-lucide="file-code" class="w-4 h-4 text-dotnet-600"></i>
-                        <span class="hidden sm:inline">ดูตัวอย่างโค้ด C# (.NET)</span>
+                        <span class="hidden sm:inline">ดูตัวอย่างโค้ด C#</span>
                     </button>
                     <button id="reset-filter-btn" class="hidden sm:flex items-center space-x-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-lg transition-colors">
                         <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
                         <span>รีเซ็ตตัวกรอง</span>
                     </button>
-                    
                     <button id="export-csv-btn" class="flex items-center space-x-1.5 text-xs font-medium text-white bg-brand-600 hover:bg-brand-700 px-3.5 py-2 rounded-lg shadow-sm transition-all active:scale-95">
                         <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
                         <span>ส่งออก CSV</span>
@@ -133,17 +125,15 @@
 [Route("api/[controller]")]
 public class DownloadReportController : ControllerBase 
 {
-    private readonly ApplicationDbContext _context;
     private readonly IConfiguration _configuration;
 
-    public DownloadReportController(ApplicationDbContext context, IConfiguration config) 
+    public DownloadReportController(IConfiguration config) 
     {
-        _context = context;
         _configuration = config;
     }
 
     [HttpGet("regional-summary")]
-    public async Task&lt;IActionResult&gt; GetRegionalSummary(...) 
+    public IActionResult GetRegionalSummary() 
     {
         // Data logic implementation
         return Ok(result);
@@ -155,43 +145,6 @@ public class DownloadReportController : ControllerBase
                 <button id="copy-code-btn" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-medium flex items-center space-x-1.5">
                     <i data-lucide="copy" class="w-4 h-4"></i>
                     <span>คัดลอกโค้ด C#</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Backend API Debug & Log Drawer (Hidden by default) -->
-    <div id="api-log-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-slate-900 text-slate-100 w-full max-w-3xl rounded-2xl shadow-2xl border border-slate-700 overflow-hidden flex flex-col max-h-[85vh]">
-            <div class="p-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <i data-lucide="terminal" class="w-5 h-5 text-emerald-400"></i>
-                    <h3 class="text-sm font-semibold text-white">ASP.NET Core API Network Inspector (Backend Log)</h3>
-                </div>
-                <button id="close-api-log-modal" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-700">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-            <div class="p-4 overflow-y-auto code-font text-xs space-y-4">
-                <div>
-                    <div class="flex items-center justify-between text-slate-400 mb-1">
-                        <span>// Request Endpoint & Query Parameters</span>
-                        <span id="api-log-time" class="text-slate-500">Latency: - ms</span>
-                    </div>
-                    <div id="api-endpoint-display" class="bg-slate-950 p-3 rounded-xl text-sky-400 border border-slate-800 break-all font-mono">
-                        Waiting for request...
-                    </div>
-                </div>
-                <div>
-                    <span class="text-slate-400">// JSON Response Payload</span>
-                    <pre id="api-json-response" class="bg-slate-950 p-4 rounded-xl text-emerald-400 border border-slate-800 overflow-x-auto mt-1 max-h-64 scrollbar-thin"><code>// Payload will load here...</code></pre>
-                </div>
-            </div>
-            <div class="p-3 bg-slate-800 border-t border-slate-700 flex justify-between items-center text-xs text-slate-400">
-                <span>Status: <strong class="text-emerald-400" id="api-status-text">200 OK</strong></span>
-                <button id="copy-json-btn" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-xs font-medium flex items-center space-x-1.5">
-                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                    <span>คัดลอก JSON Data</span>
                 </button>
             </div>
         </div>
@@ -219,29 +172,29 @@ public class DownloadReportController : ControllerBase
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-3 pt-3 border-t border-slate-100">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 pt-3 border-t border-slate-100">
                 <div>
-                    <label for="filter-region" class="block text-xs font-medium text-slate-600 mb-1">เขตพื้นที่ (Region)</label>
+                    <label for="filter-region" class="block text-xs font-medium text-slate-600 mb-1">หน่วยงาน / เขตพื้นที่ (Region)</label>
                     <select id="filter-region" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-dotnet-500 focus:outline-none">
                         <option value="ALL">ทั้งหมด (All Regions)</option>
-                        <option value="REG-00">ส่วนกลาง</option>
-                        <option value="REG-01">สำนักงานไปรษณีย์นครหลวง 1</option>
-                        <option value="REG-02">สำนักงานไปรษณีย์นครหลวง 2</option>
-                        <option value="REG-03">สำนักงานไปรษณีย์นครหลวง 3</option>
-                        <option value="REG-04">สำนักงานไปรษณีย์นครหลวง 4</option>
-                        <option value="REG-05">สำนักงานไปรษณีย์เขต 1</option>
-                        <option value="REG-06">สำนักงานไปรษณีย์เขต 2</option>
-                        <option value="REG-07">สำนักงานไปรษณีย์เขต 3</option>
-                        <option value="REG-08">สำนักงานไปรษณีย์เขต 4</option>
-                        <option value="REG-09">สำนักงานไปรษณีย์เขต 5</option>
-                        <option value="REG-10">สำนักงานไปรษณีย์เขต 6</option>
-                        <option value="REG-11">สำนักงานไปรษณีย์เขต 7</option>
-                        <option value="REG-12">สำนักงานไปรษณีย์เขต 8</option>
-                        <option value="REG-13">สำนักงานไปรษณีย์เขต 9</option>
-                        <option value="REG-14">สำนักงานไปรษณีย์เขต 10</option>
+                        <option value="REG-00">REG-00 - ส่วนกลาง</option>
+                        <option value="REG-01">REG-01 - สำนักงานไปรษณีย์นครหลวง 1</option>
+                        <option value="REG-02">REG-02 - สำนักงานไปรษณีย์นครหลวง 2</option>
+                        <option value="REG-03">REG-03 - สำนักงานไปรษณีย์นครหลวง 3</option>
+                        <option value="REG-04">REG-04 - สำนักงานไปรษณีย์นครหลวง 4</option>
+                        <option value="REG-05">REG-05 - สำนักงานไปรษณีย์เขต 1</option>
+                        <option value="REG-06">REG-06 - สำนักงานไปรษณีย์เขต 2</option>
+                        <option value="REG-07">REG-07 - สำนักงานไปรษณีย์เขต 3</option>
+                        <option value="REG-08">REG-08 - สำนักงานไปรษณีย์เขต 4</option>
+                        <option value="REG-09">REG-09 - สำนักงานไปรษณีย์เขต 5</option>
+                        <option value="REG-10">REG-10 - สำนักงานไปรษณีย์เขต 6</option>
+                        <option value="REG-11">REG-11 - สำนักงานไปรษณีย์เขต 7</option>
+                        <option value="REG-12">REG-12 - สำนักงานไปรษณีย์เขต 8</option>
+                        <option value="REG-13">REG-13 - สำนักงานไปรษณีย์เขต 9</option>
+                        <option value="REG-14">REG-14 - สำนักงานไปรษณีย์เขต 10</option>
                     </select>
                 </div>
-                <!-- <div>
+                <div>
                     <label for="filter-product" class="block text-xs font-medium text-slate-600 mb-1">ประเภทสื่อ / ผลิตภัณฑ์</label>
                     <select id="filter-product" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-dotnet-500 focus:outline-none">
                         <option value="ALL">ทุกประเภท (All Products)</option>
@@ -250,7 +203,7 @@ public class DownloadReportController : ControllerBase
                         <option value="DATA-SET">ชุดข้อมูล Open Data</option>
                         <option value="SYS-PATCH">ซอฟต์แวร์ / Patch Update</option>
                     </select>
-                </div> -->
+                </div>
             </div>
         </section>
 
@@ -282,7 +235,7 @@ public class DownloadReportController : ControllerBase
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-xs font-medium text-slate-500 mb-1">เขตพื้นที่ยอดสูงสุด</p>
-                        <h3 id="kpi-top-region" class="font-bold text-slate-900 truncate max-w-[170px]">-</h3>
+                        <h3 id="kpi-top-region" class="text-lg font-bold text-slate-900 truncate max-w-[170px]">-</h3>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
                         <i data-lucide="trophy" class="w-6 h-6"></i>
@@ -432,12 +385,37 @@ public class DownloadReportController : ControllerBase
     </footer>
 
     <script>
+        // Simulated Master Data for Fallback (including SubItems for REG-00)
+        // คำนวณ Target = 70% (0.7) ให้ตรงกับ Config
+        const mockDatabase = [
+            { 
+                id: "REG-00", name: "ส่วนกลาง", staffCount: 2170, downloads: 201, target: Math.round(2170 * 0.70),
+                subItems: [
+                    { id: "REG-00-A", name: "0", staffCount: 100000, downloads: 5, target: Math.round(100000 * 0.70) },
+                    { id: "REG-00-B", name: "ฝ่ายเลขานุการและบริหารงานกลาง", staffCount: 50000, downloads: 10, target: Math.round(50000 * 0.70) },
+                    { id: "REG-00-C", name: "ฝ่ายโครงสร้างพื้นฐานดิจิทัล", staffCount: 37500, downloads: 3, target: Math.round(37500 * 0.70) }
+                ]
+            },
+            { id: "REG-01", name: "สำนักงานไปรษณีย์นครหลวง 1", staffCount: 3723, downloads: 43, target: Math.round(3723 * 0.70) },
+            { id: "REG-02", name: "สำนักงานไปรษณีย์นครหลวง 2", staffCount: 2720, downloads: 32, target: Math.round(2720 * 0.70) },
+            { id: "REG-03", name: "สำนักงานไปรษณีย์นครหลวง 3", staffCount: 2376, downloads: 30, target: Math.round(2376 * 0.70) },
+            { id: "REG-04", name: "สำนักงานไปรษณีย์นครหลวง 4", staffCount: 2536, downloads: 22, target: Math.round(2536 * 0.70) },
+            { id: "REG-05", name: "สำนักงานไปรษณีย์เขต 1", staffCount: 1135, downloads: 508, target: Math.round(1135 * 0.70) },
+            { id: "REG-06", name: "สำนักงานไปรษณีย์เขต 2", staffCount: 2889, downloads: 98, target: Math.round(2889 * 0.70) },
+            { id: "REG-07", name: "สำนักงานไปรษณีย์เขต 3", staffCount: 1381, downloads: 16, target: Math.round(1381 * 0.70) },
+            { id: "REG-08", name: "สำนักงานไปรษณีย์เขต 4", staffCount: 1822, downloads: 23, target: Math.round(1822 * 0.70) },
+            { id: "REG-09", name: "สำนักงานไปรษณีย์เขต 5", staffCount: 2070, downloads: 84, target: Math.round(2070 * 0.70) },
+            { id: "REG-10", name: "สำนักงานไปรษณีย์เขต 6", staffCount: 1545, downloads: 97, target: Math.round(1545 * 0.70) },
+            { id: "REG-11", name: "สำนักงานไปรษณีย์เขต 7", staffCount: 1993, downloads: 206, target: Math.round(1993 * 0.70) },
+            { id: "REG-12", name: "สำนักงานไปรษณีย์เขต 8", staffCount: 2083, downloads: 1593, target: Math.round(2083 * 0.70) },
+            { id: "REG-13", name: "สำนักงานไปรษณีย์เขต 9", staffCount: 1383, downloads: 215, target: Math.round(1383 * 0.70) },
+            { id: "REG-14", name: "สำนักงานไปรษณีย์เขต 10", staffCount: 1045, downloads: 22, target: Math.round(1045 * 0.70) }
+        ];
+
         let currentData = [];
         let currentSort = { column: 'downloads', dir: 'desc' };
-        let lastJsonResponse = null;
         let barChart, pieChart;
 
-        // Fetch Data from Real ASP.NET Core API
         async function fetchRegionalDataFromBackend() {
             const regionVal = document.getElementById('filter-region')?.value || 'ALL';
             const productVal = document.getElementById('filter-product')?.value || 'ALL';
@@ -445,18 +423,16 @@ public class DownloadReportController : ControllerBase
 
             setLoadingState(true);
 
-            // Construct Real API Request URL for ASP.NET Core
             const queryParams = new URLSearchParams({
                 regionId: regionVal,
                 product: productVal
             });
+            
             const requestUrl = `/api/DownloadReport/regional-summary?${queryParams.toString()}`;
 
-            const startTime = performance.now();
             try {
-                // 1. Fetching from C# Backend (ASP.NET Core)
+                // Try fetching from real C# Backend first
                 const response = await fetch(requestUrl);
-                const endTime = performance.now();
                 
                 if (response.ok) {
                     const result = await response.json();
@@ -467,42 +443,32 @@ public class DownloadReportController : ControllerBase
                         (item.id && item.id.toLowerCase().includes(searchVal))
                     );
 
-                    // Save JSON for Inspector Modal
-                    lastJsonResponse = result;
-                    updateApiLog(requestUrl, endTime - startTime, 200, result);
-
                     applySorting();
                     renderTable(currentData);
                     updateKPIs(currentData);
                     updateCharts(currentData);
                     
                     setLoadingState(false, true); 
-                } else {
-                    throw new Error(`API Error: ${response.status}`);
+                    return; // Exit if real API succeeded
                 }
             } catch (e) {
-                console.warn("ไม่สามารถดึงข้อมูลจาก API ได้", e);
-                updateApiLog(requestUrl, 0, 500, { error: e.message });
-                setLoadingState(false, false); 
-                
-                // Clear table and charts on error
-                currentData = [];
-                renderTable([]);
-                updateKPIs([]);
-                updateCharts([]);
+                console.warn("ไม่สามารถดึงข้อมูลจาก API ได้ ระบบจะแสดงข้อมูล Mock แทน", e);
             }
-        }
 
-        function updateApiLog(url, latency, status, data) {
-            document.getElementById('api-endpoint-display').innerText = `GET ${url}`;
-            document.getElementById('api-log-time').innerText = `Latency: ${Math.round(latency)}ms`;
-            document.getElementById('api-json-response').innerText = JSON.stringify(data, null, 2);
-            document.getElementById('api-status-text').innerText = status === 200 ? '200 OK' : `${status} Error`;
-            document.getElementById('api-status-text').className = status === 200 ? 'text-emerald-400' : 'text-rose-400';
-            document.getElementById('api-status-badge').innerText = status === 200 ? '200 OK' : 'Error';
-            document.getElementById('api-status-badge').className = status === 200 
-                ? 'px-1.5 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-700 rounded' 
-                : 'px-1.5 py-0.5 text-[10px] font-bold bg-rose-100 text-rose-700 rounded';
+            // Fallback to Mock Data if API is unavailable (e.g. Preview Mode)
+            let result = mockDatabase.filter(item => {
+                const matchRegion = regionVal === 'ALL' || item.id === regionVal;
+                const matchSearch = item.name.toLowerCase().includes(searchVal) || item.id.toLowerCase().includes(searchVal);
+                return matchRegion && matchSearch;
+            });
+
+            currentData = result;
+            applySorting();
+            renderTable(currentData);
+            updateKPIs(currentData);
+            updateCharts(currentData);
+            
+            setLoadingState(false, false); 
         }
 
         function setLoadingState(isLoading, isSuccess = false) {
@@ -513,16 +479,16 @@ public class DownloadReportController : ControllerBase
 
             if (isLoading) {
                 if (overlay) overlay.classList.remove('hidden');
-                if (statusText) statusText.innerText = 'กำลังโหลดข้อมูลจาก API...';
+                if (statusText) statusText.innerText = 'กำลังโหลดข้อมูล...';
                 if (refreshIcon) refreshIcon.classList.add('animate-spin');
                 if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-amber-500 mr-1.5 animate-pulse';
             } else {
                 if (overlay) overlay.classList.add('hidden');
-                if (statusText) statusText.innerText = isSuccess ? 'เชื่อมต่อ API สำเร็จ (Live Data)' : 'ไม่สามารถเชื่อมต่อ API ได้';
+                if (statusText) statusText.innerText = isSuccess ? 'เชื่อมต่อ API สำเร็จ (Live Data)' : 'แสดงผลด้วย Mock Data';
                 if (refreshIcon) refreshIcon.classList.remove('animate-spin');
                 if (statusDot) statusDot.className = isSuccess 
                     ? 'w-2 h-2 rounded-full bg-emerald-500 mr-1.5' 
-                    : 'w-2 h-2 rounded-full bg-rose-500 mr-1.5';
+                    : 'w-2 h-2 rounded-full bg-amber-400 mr-1.5';
             }
         }
 
@@ -530,7 +496,7 @@ public class DownloadReportController : ControllerBase
             lucide.createIcons();
             initCharts();
             setupEventListeners();
-            fetchRegionalDataFromBackend(); // Load data on start
+            fetchRegionalDataFromBackend(); 
         });
 
         function initCharts() {
@@ -571,7 +537,7 @@ public class DownloadReportController : ControllerBase
             tbody.innerHTML = '';
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">ไม่พบข้อมูล หรือระบบ Backend ขัดข้อง</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">ไม่พบข้อมูลที่ตรงกับเงื่อนไขตัวกรอง</td></tr>`;
                 document.getElementById('table-summary-count').innerText = 'แสดงข้อมูล 0 รายการ';
                 return;
             }
@@ -584,26 +550,92 @@ public class DownloadReportController : ControllerBase
                 if (rate < 85) { badgeClass = 'bg-rose-50 text-rose-700 border-rose-200'; statusText = 'ต่ำกว่าเป้า'; } 
                 else if (rate < 100) { badgeClass = 'bg-amber-50 text-amber-700 border-amber-200'; statusText = 'ใกล้เคียงเป้า'; }
 
+                const hasSub = item.subItems && item.subItems.length > 0;
+
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50/80 transition-colors';
+                tr.className = 'hover:bg-slate-50/80 transition-colors border-b border-slate-100/60';
+                
+                // Toggle Button for Sub-Items
+                let toggleHtml = '';
+                if (hasSub) {
+                    toggleHtml = `<button onclick="toggleSubRows('${item.id}')" class="mr-2 text-slate-400 hover:text-dotnet-600 focus:outline-none transition-transform duration-200" id="icon-${item.id}">
+                                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                  </button>`;
+                } else {
+                    toggleHtml = `<span class="w-6 inline-block"></span>`;
+                }
+
                 tr.innerHTML = `
-                    <td class="py-3 px-4 font-semibold text-slate-900">${item.id}</td>
+                    <td class="py-3 px-4 font-semibold text-slate-900 flex items-center whitespace-nowrap">
+                        ${toggleHtml} ${item.id}
+                    </td>
                     <td class="py-3 px-4 font-medium text-slate-700">${item.name}</td>
                     <td class="py-3 px-4 text-right font-medium text-blue-600">${(item.staffCount || 0).toLocaleString()}</td>
                     <td class="py-3 px-4 text-right font-semibold text-slate-900">${(item.downloads || 0).toLocaleString()}</td>
                     <td class="py-3 px-4 text-right text-slate-500">${(item.target || 0).toLocaleString()}</td>
                     <td class="py-3 px-4 text-right font-bold ${rate >= 100 ? 'text-emerald-600' : 'text-slate-700'}">${rate}%</td>
                     <td class="py-3 px-4 text-center">
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${badgeClass}">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium border ${badgeClass}">
                             ${statusText}
                         </span>
                     </td>
                 `;
                 tbody.appendChild(tr);
+
+                // Render Sub-items (Hidden initially)
+                if (hasSub) {
+                    item.subItems.forEach(sub => {
+                        // คำนวณเปอร์เซ็นต์และสถานะสำหรับแถวย่อย
+                        const subRate = sub.target > 0 ? ((sub.downloads / sub.target) * 100).toFixed(1) : 0;
+                        let subBadge = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                        let subStatus = 'บรรลุเป้าหมาย';
+                        if (subRate < 85) { subBadge = 'bg-rose-50 text-rose-700 border-rose-200'; subStatus = 'ต่ำกว่าเป้า'; }
+                        else if (subRate < 100) { subBadge = 'bg-amber-50 text-amber-700 border-amber-200'; subStatus = 'ใกล้เคียงเป้า'; }
+
+                        const subTr = document.createElement('tr');
+                        subTr.className = `sub-row-${item.id} hidden bg-slate-50/60 border-b border-slate-100/50 transition-all`;
+                        subTr.innerHTML = `
+                            <td class="py-2.5 px-4 font-medium text-slate-500 pl-12 text-[11px] whitespace-nowrap">
+                                <i data-lucide="corner-down-right" class="w-3.5 h-3.5 inline mr-1 text-slate-400"></i> ${sub.id}
+                            </td>
+                            <td class="py-2.5 px-4 font-medium text-slate-600 text-[11.5px]">${sub.name}</td>
+                            <td class="py-2.5 px-4 text-right font-medium text-blue-500/80 text-[11.5px]">${(sub.staffCount || 0).toLocaleString()}</td>
+                            <td class="py-2.5 px-4 text-right font-semibold text-slate-700 text-[11.5px]">${(sub.downloads || 0).toLocaleString()}</td>
+                            <td class="py-2.5 px-4 text-right text-slate-500 text-[11.5px]">${(sub.target || 0).toLocaleString()}</td>
+                            <td class="py-2.5 px-4 text-right font-bold text-[11.5px] ${subRate >= 100 ? 'text-emerald-500' : 'text-slate-600'}">${subRate}%</td>
+                            <td class="py-2.5 px-4 text-center">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium border ${subBadge}">
+                                    ${subStatus}
+                                </span>
+                            </td>
+                        `;
+                        tbody.appendChild(subTr);
+                    });
+                }
             });
 
-            document.getElementById('table-summary-count').innerText = `แสดงข้อมูล ${data.length} รายการ`;
+            document.getElementById('table-summary-count').innerText = `แสดงข้อมูล ${data.length} รายการหลัก`;
+            lucide.createIcons(); // Render icons for the new rows
         }
+
+        window.toggleSubRows = function(parentId) {
+            const rows = document.querySelectorAll(`.sub-row-${parentId}`);
+            const icon = document.getElementById(`icon-${parentId}`);
+            
+            let isExpanding = false;
+            rows.forEach(row => {
+                if (row.classList.contains('hidden')) {
+                    row.classList.remove('hidden');
+                    isExpanding = true;
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            if (icon) {
+                icon.style.transform = isExpanding ? 'rotate(-180deg)' : 'rotate(0deg)';
+            }
+        };
 
         function updateKPIs(data) {
             if (!data || data.length === 0) {
@@ -701,25 +733,50 @@ public class DownloadReportController : ControllerBase
                 currentData.forEach(row => {
                     const rate = row.target > 0 ? ((row.downloads / row.target) * 100).toFixed(1) : 0;
                     csvContent += `"${row.id}","${row.name}",${row.staffCount},${row.downloads},${row.target},${rate}%\n`;
+                    
+                    // เพิ่ม Sub-items ลงในไฟล์ CSV ด้วย (นำตัวเลขเป้าหมายและความสำเร็จกลับมา)
+                    if (row.subItems && row.subItems.length > 0) {
+                        row.subItems.forEach(sub => {
+                            const subRate = sub.target > 0 ? ((sub.downloads / sub.target) * 100).toFixed(1) : 0;
+                            csvContent += `"${sub.id}","${sub.name}",${sub.staffCount},${sub.downloads},${sub.target},${subRate}%\n`;
+                        });
+                    }
                 });
 
                 const encodedUri = encodeURI(csvContent);
                 const link = document.createElement("a");
                 link.setAttribute("href", encodedUri);
-                link.setAttribute("download", `Download_Report_Regional_${new Date().toISOString().slice(0,10)}.csv`);
+                link.setAttribute("download", `Download_Report_${new Date().toISOString().slice(0,10)}.csv`);
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
             });
 
             // Modals toggle
-            const apiModal = document.getElementById('api-log-modal');
-            addListener('toggle-api-log', 'click', () => apiModal?.classList.remove('hidden'));
-            addListener('close-api-log-modal', 'click', () => apiModal?.classList.add('hidden'));
-
             const codeModal = document.getElementById('dotnet-code-modal');
             addListener('toggle-dotnet-code', 'click', () => codeModal?.classList.remove('hidden'));
             addListener('close-code-modal', 'click', () => codeModal?.classList.add('hidden'));
+
+            addListener('copy-code-btn', 'click', () => {
+                if (!codeModal) return;
+                const codeText = codeModal.querySelector('code')?.innerText || '';
+                const textarea = document.createElement('textarea');
+                textarea.value = codeText;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                const btn = document.getElementById('copy-code-btn');
+                if (btn) {
+                    btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>คัดลอกเรียบร้อย!</span>`;
+                    lucide.createIcons();
+                    setTimeout(() => {
+                        btn.innerHTML = `<i data-lucide="copy" class="w-4 h-4"></i><span>คัดลอกโค้ด C#</span>`;
+                        lucide.createIcons();
+                    }, 2000);
+                }
+            });
         }
     </script>
 </body>
