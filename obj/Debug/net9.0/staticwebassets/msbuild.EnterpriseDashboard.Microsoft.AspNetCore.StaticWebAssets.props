@@ -1,5 +1,23 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\data\number_of_employees.xlsx'))">
+      <SourceType>Package</SourceType>
+      <SourceId>EnterpriseDashboard</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/EnterpriseDashboard</BasePath>
+      <RelativePath>data/number_of_employees.xlsx</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>n34wi7cbnj</Fingerprint>
+      <Integrity>PdUsnq11AhPZO9WsemSKQUpwVQzjunUltNt9imR1Y28=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\data\number_of_employees.xlsx'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))">
       <SourceType>Package</SourceType>
       <SourceId>EnterpriseDashboard</SourceId>
@@ -12,8 +30,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>as8um4pyso</Fingerprint>
-      <Integrity>BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk=</Integrity>
+      <Fingerprint>aexu9ny4ti</Fingerprint>
+      <Integrity>komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\index.html'))</OriginalItemSpec>

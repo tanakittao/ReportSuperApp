@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ljF3b7JrzwduJQEcb3jAWZBUJmvZmC9aj8mArk9gyho=",
+  "Hash": "+ugeKK3FIMNMVjAM9xHeVlF3u1ZvEt9SiUz1fEUJXPU=",
   "Source": "EnterpriseDashboard",
   "BasePath": "_content/EnterpriseDashboard",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-as8um4pyso.gz",
+      "Identity": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-aexu9ny4ti.gz",
       "SourceId": "EnterpriseDashboard",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/EnterpriseDashboard",
-      "RelativePath": "index#[.{fingerprint=as8um4pyso}]?.html.gz",
+      "RelativePath": "index#[.{fingerprint=aexu9ny4ti}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -31,11 +31,32 @@
       "RelatedAsset": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "egbjr0cnnf",
-      "Integrity": "vjsxIHtIhh8a/yi9t/7z23+HuJ3359U8jU/wmQ9Q9bo=",
+      "Fingerprint": "smu6t5q1mh",
+      "Integrity": "lDFRWq2leLctxiUs1IwbzhdIcObQFT7e7NCpLTn/fok=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html"
+    },
+    {
+      "Identity": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\data\\number_of_employees.xlsx",
+      "SourceId": "EnterpriseDashboard",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\",
+      "BasePath": "_content/EnterpriseDashboard",
+      "RelativePath": "data/number_of_employees#[.{fingerprint}]?.xlsx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "n34wi7cbnj",
+      "Integrity": "PdUsnq11AhPZO9WsemSKQUpwVQzjunUltNt9imR1Y28=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\data\\number_of_employees.xlsx"
     },
     {
       "Identity": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html",
@@ -52,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "as8um4pyso",
-      "Integrity": "BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk=",
+      "Fingerprint": "aexu9ny4ti",
+      "Integrity": "komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\index.html"
@@ -61,13 +82,95 @@
   ],
   "Endpoints": [
     {
-      "Route": "index.as8um4pyso.html",
-      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-as8um4pyso.gz",
+      "Route": "data/number_of_employees.n34wi7cbnj.xlsx",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\data\\number_of_employees.xlsx",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "58724"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PdUsnq11AhPZO9WsemSKQUpwVQzjunUltNt9imR1Y28=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Sep 2026 06:38:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "n34wi7cbnj"
+        },
+        {
+          "Name": "label",
+          "Value": "data/number_of_employees.xlsx"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PdUsnq11AhPZO9WsemSKQUpwVQzjunUltNt9imR1Y28="
+        }
+      ]
+    },
+    {
+      "Route": "data/number_of_employees.xlsx",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\data\\number_of_employees.xlsx",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "58724"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PdUsnq11AhPZO9WsemSKQUpwVQzjunUltNt9imR1Y28=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 10 Sep 2026 06:38:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PdUsnq11AhPZO9WsemSKQUpwVQzjunUltNt9imR1Y28="
+        }
+      ]
+    },
+    {
+      "Route": "index.aexu9ny4ti.html",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-aexu9ny4ti.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000102354145"
+          "Quality": "0.000096006144"
         }
       ],
       "ResponseHeaders": [
@@ -77,15 +180,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "9769"
+          "Value": "10415"
         },
         {
           "Name": "ETag",
-          "Value": "\"vjsxIHtIhh8a/yi9t/7z23+HuJ3359U8jU/wmQ9Q9bo=\""
+          "Value": "\"lDFRWq2leLctxiUs1IwbzhdIcObQFT7e7NCpLTn/fok=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 01 Sep 2026 07:02:28 GMT"
+          "Value": "Thu, 10 Sep 2026 04:41:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -105,13 +208,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk=\""
+          "Value": "W/\"komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "as8um4pyso"
+          "Value": "aexu9ny4ti"
         },
         {
           "Name": "label",
@@ -119,12 +222,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk="
+          "Value": "sha256-komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE="
         }
       ]
     },
     {
-      "Route": "index.as8um4pyso.html",
+      "Route": "index.aexu9ny4ti.html",
       "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html",
       "Selectors": [],
       "ResponseHeaders": [
@@ -134,7 +237,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "47623"
+          "Value": "50296"
         },
         {
           "Name": "Content-Type",
@@ -142,11 +245,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk=\""
+          "Value": "\"komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 01 Sep 2026 07:02:28 GMT"
+          "Value": "Thu, 10 Sep 2026 04:41:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -156,7 +259,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "as8um4pyso"
+          "Value": "aexu9ny4ti"
         },
         {
           "Name": "label",
@@ -164,13 +267,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk="
+          "Value": "sha256-komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE="
         }
       ]
     },
     {
-      "Route": "index.as8um4pyso.html.gz",
-      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-as8um4pyso.gz",
+      "Route": "index.aexu9ny4ti.html.gz",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-aexu9ny4ti.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -179,7 +282,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "9769"
+          "Value": "10415"
         },
         {
           "Name": "Content-Type",
@@ -187,11 +290,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"vjsxIHtIhh8a/yi9t/7z23+HuJ3359U8jU/wmQ9Q9bo=\""
+          "Value": "\"lDFRWq2leLctxiUs1IwbzhdIcObQFT7e7NCpLTn/fok=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 01 Sep 2026 07:02:28 GMT"
+          "Value": "Thu, 10 Sep 2026 04:41:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -209,7 +312,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "as8um4pyso"
+          "Value": "aexu9ny4ti"
         },
         {
           "Name": "label",
@@ -217,18 +320,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-vjsxIHtIhh8a/yi9t/7z23+HuJ3359U8jU/wmQ9Q9bo="
+          "Value": "sha256-lDFRWq2leLctxiUs1IwbzhdIcObQFT7e7NCpLTn/fok="
         }
       ]
     },
     {
       "Route": "index.html",
-      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-as8um4pyso.gz",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-aexu9ny4ti.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000102354145"
+          "Quality": "0.000096006144"
         }
       ],
       "ResponseHeaders": [
@@ -238,15 +341,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "9769"
+          "Value": "10415"
         },
         {
           "Name": "ETag",
-          "Value": "\"vjsxIHtIhh8a/yi9t/7z23+HuJ3359U8jU/wmQ9Q9bo=\""
+          "Value": "\"lDFRWq2leLctxiUs1IwbzhdIcObQFT7e7NCpLTn/fok=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 01 Sep 2026 07:02:28 GMT"
+          "Value": "Thu, 10 Sep 2026 04:41:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -266,13 +369,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk=\""
+          "Value": "W/\"komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk="
+          "Value": "sha256-komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE="
         }
       ]
     },
@@ -287,7 +390,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "47623"
+          "Value": "50296"
         },
         {
           "Name": "Content-Type",
@@ -295,11 +398,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk=\""
+          "Value": "\"komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 01 Sep 2026 07:02:28 GMT"
+          "Value": "Thu, 10 Sep 2026 04:41:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -309,13 +412,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-BgJTBPZ8vSSxhQgHAlSBFPOL0eja0r/vlLdsEAYCEUk="
+          "Value": "sha256-komvDet684dVRiwpFs4cO67AoSOMNoZ9GcjYYOmYOcE="
         }
       ]
     },
     {
       "Route": "index.html.gz",
-      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-as8um4pyso.gz",
+      "AssetFile": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\obj\\Debug\\net9.0\\compressed\\37mzn414wc-aexu9ny4ti.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -324,7 +427,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "9769"
+          "Value": "10415"
         },
         {
           "Name": "Content-Type",
@@ -332,11 +435,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"vjsxIHtIhh8a/yi9t/7z23+HuJ3359U8jU/wmQ9Q9bo=\""
+          "Value": "\"lDFRWq2leLctxiUs1IwbzhdIcObQFT7e7NCpLTn/fok=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 01 Sep 2026 07:02:28 GMT"
+          "Value": "Thu, 10 Sep 2026 04:41:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -354,7 +457,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-vjsxIHtIhh8a/yi9t/7z23+HuJ3359U8jU/wmQ9Q9bo="
+          "Value": "sha256-lDFRWq2leLctxiUs1IwbzhdIcObQFT7e7NCpLTn/fok="
         }
       ]
     }

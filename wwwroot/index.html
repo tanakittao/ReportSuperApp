@@ -9,6 +9,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- ⚠️ ไลบรารี SheetJS สำหรับอ่านไฟล์ Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Google Fonts: Prompt -->
@@ -25,7 +29,7 @@
                         dotnet: {
                             50: '#f5f3ff',
                             100: '#ede9fe',
-                            500: '#0D47A1',
+                            500: '#002169',
                             600: '#5b21b6',
                             700: '#4c1d95',
                             800: '#3b0764',
@@ -71,11 +75,18 @@
         }
 
         .bg-dotnet-600 {
-            background-color: #0D47A1 !important;
+            background-color: #002169 !important;
         }
 
         .text-dotnet-600 {
-            color: #0D47A1 !important;
+            color: #002169 !important;
+        }
+
+        .text-blue-600 {
+            color: #002169 !important;
+        }
+        .text-red-600 {
+            color: #FE3B1F !important;
         }
     </style>
 </head>
@@ -94,80 +105,37 @@
                     </div>
                     <div>
                         <div class="flex items-center space-x-2">
-                            <h1 class="text-lg font-bold text-slate-900 leading-tight">ระบบรายงานยอดการดาวน์โหลด
-                                และลงทะเบียนเข้าใช้งาน</h1>
+                            <h1 class="text-lg font-bold text-slate-900 leading-tight">ระบบรายงานยอดการดาวน์โหลด</h1>
+                            <span
+                                class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-700 border border-emerald-200">
+                                <i data-lucide="file-spreadsheet" class="w-3 h-3 mr-1"></i> Excel Data Source
+                            </span>
                         </div>
-                        <p class="text-xs text-slate-500">จำแนกตามเขตพื้นที่และภูมิภาค (Regional Download Analytics)
-                            อัปเดตเมื่อ 01/09/2026</p>
+                        <p class="text-xs text-slate-500 flex items-center space-x-1">
+                            <span>จำแนกตามเขตพื้นที่และภูมิภาค (Regional Download Analytics)</span>
+                            <span class="text-slate-300">|</span>
+                            <span class="text-slate-400">อัปเดตล่าสุด: <span id="lbl-last-update"
+                                    class="font-medium text-slate-600">กำลังโหลด...</span></span>
+                        </p>
                     </div>
                 </div>
 
                 <!-- Action Bar Controls -->
                 <div class="flex items-center space-x-3">
-                    <!-- <button id="toggle-dotnet-code" class="flex items-center space-x-1.5 text-xs font-medium text-dotnet-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-3 py-2 rounded-lg transition-colors">
-                        <i data-lucide="file-code" class="w-4 h-4 text-dotnet-600"></i>
-                        <span class="hidden sm:inline">ดูตัวอย่างโค้ด C#</span>
-                    </button>
-                    <button id="reset-filter-btn" class="hidden sm:flex items-center space-x-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-lg transition-colors">
+                    <button id="reset-filter-btn"
+                        class="hidden sm:flex items-center space-x-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-lg transition-colors">
                         <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-                        <span>รีเซ็ตตัวกรอง</span>
-                    </button> -->
-                    <button id="export-csv-btn" class="flex items-center space-x-1.5 text-xs font-medium text-white bg-brand-600 hover:bg-brand-700 px-3.5 py-2 rounded-lg shadow-sm transition-all active:scale-95">
-                        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                        <span>รีเฟรชข้อมูลหน้าเว็บ</span>
+                    </button>
+                    <button id="export-csv-btn"
+                        class="flex items-center space-x-1.5 text-xs font-medium text-white bg-brand-600 hover:bg-brand-700 px-3.5 py-2 rounded-lg shadow-sm transition-all active:scale-95">
+                        <i data-lucide="download" class="w-4 h-4"></i>
                         <span>ส่งออก CSV</span>
                     </button>
                 </div>
             </div>
         </div>
     </header>
-
-    <!-- .NET Code Drawer / Modal (Hidden by default) -->
-    <div id="dotnet-code-modal"
-        class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div
-            class="bg-slate-900 text-slate-100 w-full max-w-4xl rounded-2xl shadow-2xl border border-slate-700 overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="p-4 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <i data-lucide="code-2" class="w-5 h-5 text-purple-400"></i>
-                    <h3 class="text-sm font-semibold text-white">ASP.NET Core Backend Controller Code</h3>
-                </div>
-                <button id="close-code-modal" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-700">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-            <div class="p-4 overflow-y-auto code-font text-xs leading-relaxed space-y-4">
-                <div>
-                    <span class="text-slate-400">// C# ASP.NET Core Web API Controller</span>
-                    <pre
-                        class="bg-slate-950 p-4 rounded-xl text-emerald-400 border border-slate-800 overflow-x-auto mt-1"><code>[ApiController]
-[Route("api/[controller]")]
-public class DownloadReportController : ControllerBase 
-{
-    private readonly IConfiguration _configuration;
-
-    public DownloadReportController(IConfiguration config) 
-    {
-        _configuration = config;
-    }
-
-    [HttpGet("regional-summary")]
-    public IActionResult GetRegionalSummary() 
-    {
-        // Data logic implementation
-        return Ok(result);
-    }
-}</code></pre>
-                </div>
-            </div>
-            <div class="p-3 bg-slate-800 border-t border-slate-700 flex justify-end">
-                <button id="copy-code-btn"
-                    class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-medium flex items-center space-x-1.5">
-                    <i data-lucide="copy" class="w-4 h-4"></i>
-                    <span>คัดลอกโค้ด C#</span>
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- Main Content Area -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
@@ -182,38 +150,25 @@ public class DownloadReportController : ControllerBase
                 <div class="flex items-center space-x-3">
                     <span id="backend-status-indicator" class="text-xs text-slate-500 flex items-center">
                         <span id="status-dot" class="w-2 h-2 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
-                        <span id="status-text">พร้อมดึงข้อมูลจาก ASP.NET Core</span>
+                        <span id="status-text">พร้อมดึงข้อมูลจาก Excel</span>
                     </span>
                     <button id="fetch-remote-btn"
                         class="flex items-center space-x-1 text-xs font-medium text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 px-2.5 py-1 rounded-lg transition-colors">
                         <i data-lucide="refresh-cw" id="refresh-icon" class="w-3.5 h-3.5"></i>
-                        <span>ดึงข้อมูลใหม่ (Fetch API)</span>
+                        <span>อ่านไฟล์ Excel ใหม่</span>
                     </button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1  gap-3 pt-3 border-t border-slate-100">
+            <!-- เพิ่มส่วน Dropdown สำหรับกรองเขตพื้นที่ -->
+            <div class="grid grid-cols-1 gap-4 pt-3 mt-1 border-t border-slate-100">
                 <div>
-                    <label for="filter-region" class="block text-xs font-medium text-slate-600 mb-1">หน่วยงาน /
-                        เขตพื้นที่ (Region)</label>
+                    <label for="filter-region" class="block text-xs font-medium text-slate-600 mb-1">เลือกเขตพื้นที่
+                        (Region)</label>
                     <select id="filter-region"
                         class="w-full text-xs bg-slate-50 border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-dotnet-500 focus:outline-none">
                         <option value="ALL">ทั้งหมด (All Regions)</option>
-                        <option value="REG-00">REG-00 - ส่วนกลาง</option>
-                        <option value="ปน-01">ปน-01 - สำนักงานไปรษณีย์นครหลวง 1</option>
-                        <option value="ปน-02">ปน-02 - สำนักงานไปรษณีย์นครหลวง 2</option>
-                        <option value="ปน-03">ปน-03 - สำนักงานไปรษณีย์นครหลวง 3</option>
-                        <option value="ปน-04">ปน-04 - สำนักงานไปรษณีย์นครหลวง 4</option>
-                        <option value="ปข-01">ปข-01 - สำนักงานไปรษณีย์เขต 1</option>
-                        <option value="ปข-02">ปข-02 - สำนักงานไปรษณีย์เขต 2</option>
-                        <option value="ปข-03">ปข-03 - สำนักงานไปรษณีย์เขต 3</option>
-                        <option value="ปข-04">ปข-04 - สำนักงานไปรษณีย์เขต 4</option>
-                        <option value="ปข-05">ปข-05 - สำนักงานไปรษณีย์เขต 5</option>
-                        <option value="ปข-06">ปข-06 - สำนักงานไปรษณีย์เขต 6</option>
-                        <option value="ปข-07">ปข-07 - สำนักงานไปรษณีย์เขต 7</option>
-                        <option value="ปข-08">ปข-08 - สำนักงานไปรษณีย์เขต 8</option>
-                        <option value="ปข-09">ปข-09 - สำนักงานไปรษณีย์เขต 9</option>
-                        <option value="ปข-10">ปข-10 - สำนักงานไปรษณีย์เขต 10</option>
+                        <!-- ตัวเลือกจะถูกสร้างอัตโนมัติจากไฟล์ Excel -->
                     </select>
                 </div>
             </div>
@@ -227,7 +182,7 @@ public class DownloadReportController : ControllerBase
                 <div
                     class="flex items-center space-x-2 text-xs font-medium text-dotnet-700 bg-white px-3 py-2 rounded-xl shadow-md border border-purple-100">
                     <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
-                    <span>กำลังโหลดข้อมูลจาก API...</span>
+                    <span>กำลังโหลดข้อมูลจาก Excel...</span>
                 </div>
             </div>
 
@@ -245,20 +200,17 @@ public class DownloadReportController : ControllerBase
                 </div>
             </div>
 
-            <!-- KPI 2: Top Performing Region -->
+            <!-- KPI 2: Total Staff -->
             <div
                 class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden group hover:border-dotnet-500 transition-all">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-medium text-slate-500 mb-1">เขตพื้นที่ยอดสูงสุด</p>
-                        <h3 id="kpi-top-region" class=" font-bold text-slate-900 truncate max-w-[170px]">-</h3>
+                        <p class="text-xs font-medium text-slate-500 mb-1">จำนวนบุคลากรรวมทั้งหมด</p>
+                        <h3 id="kpi-total-staff" class="text-2xl font-bold text-slate-900 truncate max-w-[170px]">0</h3>
                     </div>
-                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                        <i data-lucide="trophy" class="w-6 h-6"></i>
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                        <i data-lucide="users" class="w-6 h-6"></i>
                     </div>
-                </div>
-                <div class="mt-3 flex items-center text-xs text-slate-500">
-                    <span id="kpi-top-region-val" class="font-semibold text-slate-700">0 ครั้ง</span>
                 </div>
             </div>
 
@@ -267,7 +219,7 @@ public class DownloadReportController : ControllerBase
                 class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden group hover:border-dotnet-500 transition-all">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-medium text-slate-500 mb-1">อัตราการบรรลุเป้าหมาย</p>
+                        <p class="text-xs font-medium text-slate-500 mb-1">อัตราการบรรลุเป้าหมายรวม</p>
                         <h3 id="kpi-target-rate" class="text-2xl font-bold text-slate-900">0%</h3>
                     </div>
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -282,22 +234,26 @@ public class DownloadReportController : ControllerBase
                 </div>
             </div>
 
-            <!-- KPI 4: Active Regions Count -->
+            <!-- KPI 4: Top Performing Region (เขตพื้นที่ยอดสูงสุด) -->
             <div
                 class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden group hover:border-dotnet-500 transition-all">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-medium text-slate-500 mb-1">จำนวนเขตพื้นที่ (รายการ)</p>
-                        <h3 id="kpi-active-regions" class="text-2xl font-bold text-slate-900">0</h3>
+                        <p class="text-xs font-medium text-slate-500 mb-1">เขตพื้นที่ยอดสูงสุด</p>
+                        <h3 id="kpi-top-region" class="font-bold text-slate-900  max-w-[170px]">-</h3>
                     </div>
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center">
-                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                        <i data-lucide="trophy" class="w-6 h-6"></i>
                     </div>
+                </div>
+                <div class="mt-3 flex items-center text-xs text-slate-500">
+                    <span>ยอดดาวน์โหลด: </span>
+                    <span id="kpi-top-region-val" class="font-semibold text-slate-700 ml-1">0 ครั้ง</span>
                 </div>
             </div>
         </section>
 
-        <!-- Charts Section Row 1: Regional Download Comparison & Share -->
+        <!-- Charts Section -->
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Main Bar Chart (2 Columns) -->
             <div
@@ -319,8 +275,8 @@ public class DownloadReportController : ControllerBase
             <!-- Doughnut Chart (1 Column) -->
             <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
                 <div class="mb-4">
-                    <h3 class="text-sm font-bold text-slate-900">สัดส่วนยอดดาวน์โหลดตามเขต</h3>
-                    <p class="text-xs text-slate-500">การกระจายตัวเปอร์เซ็นต์ (Share of Total)</p>
+                    <h3 class="text-sm font-bold text-slate-900">สัดส่วนบุคลากรตามเขตพื้นที่</h3>
+                    <p class="text-xs text-slate-500">แสดงการกระจายตัวของจำนวนพนักงาน</p>
                 </div>
                 <div class="relative w-full h-64 sm:h-72 flex items-center justify-center">
                     <canvas id="regionSharePieChart"></canvas>
@@ -328,18 +284,22 @@ public class DownloadReportController : ControllerBase
             </div>
         </section>
 
-        <!-- Detailed Data Table Section -->
+        <!-- Detailed Data Table Section (Main Table) -->
         <section class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
             <!-- Table Header Bar -->
             <div
                 class="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h3 class="text-sm font-bold text-slate-900">ตารางสรุปรายละเอียดจำแนกตามเขตพื้นที่</h3>
-                    <p class="text-xs text-slate-500">รายละเอียดผลงาน ยอดดาวน์โหลด และอัตราความสำเร็จ</p>
+                    <h3 class="text-sm font-bold text-slate-900 text-emerald-700 flex items-center">
+                        <i data-lucide="table" class="w-4 h-4 mr-2"></i>
+                        ตารางสรุปรายละเอียดจำแนกตามเขตพื้นที่ (ข้อมูลจาก Excel)
+                    </h3>
+                    <p class="text-xs text-slate-500">ข้อมูล Item หลัก (เขตพื้นที่) และ SubItem (สังกัด)
+                        พร้อมผลรวมยอดพนักงาน</p>
                 </div>
                 <div class="relative w-full sm:w-64">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                    <input id="table-search" type="text" placeholder="ค้นหาเขตพื้นที่ หรือ รหัส..."
+                    <input id="table-search" type="text" placeholder="ค้นหาเขตพื้นที่ หรือ สังกัด..."
                         class="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-dotnet-500">
                 </div>
             </div>
@@ -349,49 +309,49 @@ public class DownloadReportController : ControllerBase
                 <table class="w-full text-left text-xs text-slate-600">
                     <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200/70">
                         <tr>
-                            <th class="py-3.5 px-4 cursor-pointer hover:bg-slate-100 transition-colors"
+                            <th class="py-3.5 px-4 cursor-pointer hover:bg-slate-100 transition-colors w-32"
                                 onclick="sortTable('id')">
                                 <div class="flex items-center space-x-1">
-                                    <span>รหัสเขต</span>
+                                    <span>รหัสระบบ</span>
                                     <i data-lucide="arrow-up-down" class="w-3 h-3 text-slate-400"></i>
                                 </div>
                             </th>
                             <th class="py-3.5 px-4 cursor-pointer hover:bg-slate-100 transition-colors"
                                 onclick="sortTable('name')">
                                 <div class="flex items-center space-x-1">
-                                    <span>ชื่อเขตพื้นที่ / ภูมิภาค</span>
+                                    <span>ชื่อเขตพื้นที่ / สังกัด</span>
                                     <i data-lucide="arrow-up-down" class="w-3 h-3 text-slate-400"></i>
                                 </div>
                             </th>
-                            <th class="py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors"
+                            <th class="py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors w-40"
                                 onclick="sortTable('staffCount')">
                                 <div class="flex items-center justify-end space-x-1">
-                                    <span>จำนวนบุคลากร (คน)</span>
+                                    <span>จำนวนพนักงาน (คน)</span>
                                     <i data-lucide="users" class="w-3 h-3 text-slate-400 ml-1"></i>
                                 </div>
                             </th>
-                            <th class="py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors"
+                            <th class="py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors w-36"
                                 onclick="sortTable('downloads')">
                                 <div class="flex items-center justify-end space-x-1">
-                                    <span>ยอดดาวน์โหลด (ครั้ง)</span>
+                                    <span>ยอดดาวน์โหลด</span>
                                     <i data-lucide="arrow-up-down" class="w-3 h-3 text-slate-400"></i>
                                 </div>
                             </th>
-                            <th class="py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors"
+                            <th class="py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors w-32"
                                 onclick="sortTable('target')">
                                 <div class="flex items-center justify-end space-x-1">
-                                    <span>เป้าหมาย (ครั้ง)</span>
+                                    <span>เป้าหมาย (70%)</span>
                                     <i data-lucide="arrow-up-down" class="w-3 h-3 text-slate-400"></i>
                                 </div>
                             </th>
-                            <th class="py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors"
+                            <th class="py-3.5 px-4 text-right cursor-pointer hover:bg-slate-100 transition-colors w-28"
                                 onclick="sortTable('rate')">
                                 <div class="flex items-center justify-end space-x-1">
-                                    <span>ความสำเร็จ (%)</span>
+                                    <span>ความสำเร็จ</span>
                                     <i data-lucide="arrow-up-down" class="w-3 h-3 text-slate-400"></i>
                                 </div>
                             </th>
-                            <th class="py-3.5 px-4 text-center">สถานะผลงาน</th>
+                            <th class="py-3.5 px-4 text-center w-32">สถานะผลงาน</th>
                         </tr>
                     </thead>
                     <tbody id="region-table-body" class="divide-y divide-slate-100">
@@ -403,119 +363,220 @@ public class DownloadReportController : ControllerBase
             <div
                 class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
                 <span id="table-summary-count">แสดงข้อมูล 0 รายการ</span>
-                <span>ข้อมูลซิงค์ตรงกับ C# Backend API</span>
+                <span>ไฟล์อ้างอิง: /data/number_of_employees.xlsx</span>
             </div>
         </section>
+
     </main>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 mt-8">
         <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            <!-- © 2026 ASP.NET Core Download Reporting System. All rights reserved. -->
+            © 2026 ASP.NET Core & Excel Data Integration Dashboard.
         </div>
     </footer>
 
     <script>
-        // Simulated Master Data for Fallback (including SubItems for REG-00)
-        // คำนวณ Target = 70% (0.7) ให้ตรงกับ Config
-        const mockDatabase = [
-            {
-                id: "REG-00", name: "ส่วนกลาง", staffCount: 2170, downloads: 201, target: Math.round(2170 * 0.70),
-                subItems: [
-                    { id: "REG-00-A", name: "0", staffCount: 100000, downloads: 5, target: Math.round(100000 * 0.70) },
-                    { id: "REG-00-B", name: "ฝ่ายเลขานุการและบริหารงานกลาง", staffCount: 50000, downloads: 10, target: Math.round(50000 * 0.70) },
-                    { id: "REG-00-C", name: "ฝ่ายโครงสร้างพื้นฐานดิจิทัล", staffCount: 37500, downloads: 3, target: Math.round(37500 * 0.70) }
-                ]
-            },
-            { id: "ปน-01", name: "สำนักงานไปรษณีย์นครหลวง 1", staffCount: 3723, downloads: 43, target: Math.round(3723 * 0.70) },
-            { id: "ปน-02", name: "สำนักงานไปรษณีย์นครหลวง 2", staffCount: 2720, downloads: 32, target: Math.round(2720 * 0.70) },
-            { id: "ปน-03", name: "สำนักงานไปรษณีย์นครหลวง 3", staffCount: 2376, downloads: 30, target: Math.round(2376 * 0.70) },
-            { id: "ปน-04", name: "สำนักงานไปรษณีย์นครหลวง 4", staffCount: 2536, downloads: 22, target: Math.round(2536 * 0.70) },
-            { id: "ปข-01", name: "สำนักงานไปรษณีย์เขต 1", staffCount: 1135, downloads: 508, target: Math.round(1135 * 0.70) },
-            { id: "ปข-02", name: "สำนักงานไปรษณีย์เขต 2", staffCount: 2889, downloads: 98, target: Math.round(2889 * 0.70) },
-            { id: "ปข-03", name: "สำนักงานไปรษณีย์เขต 3", staffCount: 1381, downloads: 16, target: Math.round(1381 * 0.70) },
-            { id: "ปข-04", name: "สำนักงานไปรษณีย์เขต 4", staffCount: 1822, downloads: 23, target: Math.round(1822 * 0.70) },
-            { id: "ปข-05", name: "สำนักงานไปรษณีย์เขต 5", staffCount: 2070, downloads: 84, target: Math.round(2070 * 0.70) },
-            { id: "ปข-06", name: "สำนักงานไปรษณีย์เขต 6", staffCount: 1545, downloads: 97, target: Math.round(1545 * 0.70) },
-            { id: "ปข-07", name: "สำนักงานไปรษณีย์เขต 7", staffCount: 1993, downloads: 206, target: Math.round(1993 * 0.70) },
-            { id: "ปข-08", name: "สำนักงานไปรษณีย์เขต 8", staffCount: 2083, downloads: 1593, target: Math.round(2083 * 0.70) },
-            { id: "ปข-09", name: "สำนักงานไปรษณีย์เขต 9", staffCount: 1383, downloads: 215, target: Math.round(1383 * 0.70) },
-            { id: "ปข-10", name: "สำนักงานไปรษณีย์เขต 10", staffCount: 1045, downloads: 22, target: Math.round(1045 * 0.70) }
-        ];
-
+        // Data State Variables
+        let allParsedData = []; // เพิ่มตัวแปรเก็บข้อมูลดิบทั้งหมดเพื่อใช้ตอนกดตัวกรอง
         let currentData = [];
-        let currentSort = { column: 'downloads', dir: 'desc' };
+        let currentSort = { column: 'id', dir: 'asc' };
         let barChart, pieChart;
 
-        async function fetchRegionalDataFromBackend() {
-            const regionVal = document.getElementById('filter-region')?.value || 'ALL';
-            const productVal = document.getElementById('filter-product')?.value || 'ALL';
+        // Mock Database (ใช้เฉพาะตอนโหลดไฟล์ Excel ไม่ได้ ในหน้า Preview)
+        const mockDatabase = [
+            {
+                id: "REG-01", name: "เขตจำลอง 1 (หาไฟล์ Excel ไม่เจอ)", staffCount: 1500, downloads: 0, target: 1050,
+                subItems: [
+                    { id: "REG-01-1", name: "ส่วนงานจำลอง A", staffCount: 1000, downloads: 0, target: 700 },
+                    { id: "REG-01-2", name: "ส่วนงานจำลอง B", staffCount: 500, downloads: 0, target: 350 }
+                ]
+            }
+        ];
+
+        /* =======================================================
+           ฟังก์ชันหลัก: อ่านและจัดกลุ่มข้อมูล Excel ลงตารางหลัก
+           ======================================================= */
+        async function fetchExcelDataToMainTable() {
+            setLoadingState(true);
             const searchVal = (document.getElementById('table-search')?.value || '').toLowerCase().trim();
 
-            setLoadingState(true);
-
-            const queryParams = new URLSearchParams({
-                regionId: regionVal,
-                product: productVal
-            });
-
-            const requestUrl = `/api/DownloadReport/regional-summary?${queryParams.toString()}`;
-
             try {
-                // Try fetching from real C# Backend first
-                const response = await fetch(requestUrl);
+                // 1. อ่านไฟล์ Excel (เปลี่ยนชื่อไฟล์เป็น number_of_employees.xlsx)
+                const response = await fetch('/data/number_of_employees.xlsx');
 
-                if (response.ok) {
-                    const result = await response.json();
+                // ถ้ารันในพรีวิวแล้ว Error จะโยนเข้า catch ให้ใช้ mockDatabase
+                if (!response.ok) throw new Error('ไม่พบไฟล์ /data/number_of_employees.xlsx บนเซิร์ฟเวอร์');
 
-                    // Client-side text search filter
-                    currentData = result.filter(item =>
-                        (item.name && item.name.toLowerCase().includes(searchVal)) ||
-                        (item.id && item.id.toLowerCase().includes(searchVal))
-                    );
+                const arrayBuffer = await response.arrayBuffer();
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
 
-                    applySorting();
-                    renderTable(currentData);
-                    updateKPIs(currentData);
-                    updateCharts(currentData);
+                // อ่านข้อมูลแปลงเป็น JSON (เอาช่องว่างออก)
+                const rawData = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
 
-                    setLoadingState(false, true);
-                    return; // Exit if real API succeeded
-                }
-            } catch (e) {
-                console.warn("ไม่สามารถดึงข้อมูลจาก API ได้ ระบบจะแสดงข้อมูล Mock แทน", e);
+                // 2. จัดกลุ่มข้อมูล (Grouping)
+                const groupedMap = {};
+                let idCounter = 1;
+
+                rawData.forEach(row => {
+                    // Helper: ค้นหาคอลัมน์โดยไม่สนช่องว่างหรือตัวพิมพ์เล็กใหญ่
+                    const getVal = (searchWords) => {
+                        for (let key of Object.keys(row)) {
+                            const cleanKey = key.replace(/\s+/g, '').toLowerCase();
+                            for (let word of searchWords) {
+                                if (cleanKey.includes(word.toLowerCase())) return row[key];
+                            }
+                        }
+                        return null;
+                    };
+
+                    // ค้นหาคอลัมน์ Item หลัก (ชื่อเขตพื้นที่)
+                    let regionName = getVal(['ชื่อเขตพื้นที่', 'เขต', 'region', 'รายชื่อฝ่าย']) || 'หมวดหมู่ทั่วไป';
+                    // ค้นหาคอลัมน์ SubItem (สังกัด)
+                    let subName = getVal(['สังกัด', 'ฝ่าย', 'แผนก', 'ส่วนงาน']) || 'ไม่มีสังกัดย่อย';
+                    // ค้นหาคอลัมน์ ตัวเลขพนักงาน
+                    let rawStaff = getVal(['จำนวนพนักงาน', 'พนักงาน', 'บุคลากร', 'คน']) || 0;
+                    let rawDownloads = getVal(['ยอดดาวน์โหลด', 'ดาวน์โหลด', 'downloads', 'ยอดโหลด', 'ยอด']) || 0;
+
+                    // แปลงค่าพนักงานเป็นตัวเลข
+                    let staffCount = 0;
+                    if (typeof rawStaff === 'number') {
+                        staffCount = rawStaff;
+                    } else if (typeof rawStaff === 'string') {
+                        staffCount = parseInt(rawStaff.replace(/,/g, '').trim()) || 0;
+                    }
+
+                    let downloadCount = 0;
+                    if (typeof rawDownloads === 'number') {
+                        downloadCount = rawDownloads;
+                    } else if (typeof rawDownloads === 'string') {
+                        downloadCount = parseInt(rawDownloads.replace(/,/g, '').trim()) || 0;
+                    }
+
+                    // --- การจัดกลุ่ม Item หลัก (Region) ---
+                    if (!groupedMap[regionName]) {
+                        // สร้าง ID แบบเรียงลำดับอัตโนมัติ ป้องกันรหัสชนกัน
+                        let regionId;
+                        if (regionName.includes('ส่วนกลาง') || regionName === '0') {
+                            regionId = "REG-00"; // ล็อกให้ส่วนกลางเป็น REG-00 เสมอ
+                        } else {
+                            regionId = "REG-" + idCounter.toString().padStart(2, '0');
+                            idCounter++; // นับเลขเพิ่มทีละ 1 สำหรับเขตถัดไป (REG-01, 02, 03...)
+                        }
+
+                        groupedMap[regionName] = {
+                            id: regionId,
+                            name: regionName,
+                            staffCount: 0,
+                            downloads: 0,
+                            target: 0,
+                            subItems: []
+                        };
+                    }
+
+                    // --- การจัดกลุ่ม SubItem (สังกัดย่อย) ---
+                    let subItem = groupedMap[regionName].subItems.find(s => s.name === subName);
+
+                    if (subItem) {
+                        // ถ้ามีสังกัดนี้แล้ว ให้บวกยอดพนักงานเพิ่ม
+                        subItem.staffCount += staffCount;
+                        subItem.downloads += downloadCount;
+                        subItem.target = Math.round(subItem.staffCount * 0.7); // เป้า 70%
+                    } else {
+                        // ถ้ายังไม่มีสังกัดนี้ สร้างใหม่
+                        groupedMap[regionName].subItems.push({
+                            id: `${groupedMap[regionName].id}-${groupedMap[regionName].subItems.length + 1}`,
+                            name: subName,
+                            staffCount: staffCount,
+                            downloads: downloadCount,
+                            target: Math.round(staffCount * 0.7)
+                        });
+                    }
+
+                    // --- อัปเดตยอดรวมระดับ Item หลัก (บวกทบ) ---
+                    groupedMap[regionName].staffCount += staffCount;
+                    groupedMap[regionName].downloads += downloadCount;
+                    groupedMap[regionName].target = Math.round(groupedMap[regionName].staffCount * 0.7);
+                });
+
+                // 3. แปลง Object Map เป็น Array
+                allParsedData = Object.values(groupedMap);
+
+                // สร้างตัวเลือกใน Dropdown อัตโนมัติจากข้อมูล
+                populateRegionDropdown(allParsedData);
+
+                // 4. การกรองข้อมูล และสั่ง Render หน้าจอ
+                applyFilters();
+
+                setLoadingState(false, true);
+                document.getElementById('status-text').innerText = 'จัดกลุ่มข้อมูลจาก Excel สำเร็จ';
+
+            } catch (error) {
+                console.warn("Excel Load Error (ใช้ข้อมูล Mock แทน):", error);
+
+                // กรณีรันบน Preview แล้วโหลดไฟล์ไม่ได้ ให้ใช้ Mock
+                allParsedData = mockDatabase;
+
+                populateRegionDropdown(allParsedData);
+                applyFilters();
+
+                setLoadingState(false, false);
+                document.getElementById('status-text').innerText = 'ระบบ Preview (ใช้ข้อมูลจำลอง)';
             }
+        }
 
-            // Fallback to Mock Data if API is unavailable (e.g. Preview Mode)
-            let result = mockDatabase.filter(item => {
+        // ฟังก์ชันสร้างตัวเลือก Dropdown อัตโนมัติ
+        function populateRegionDropdown(data) {
+            const select = document.getElementById('filter-region');
+            if (!select) return;
+            const currentVal = select.value;
+            select.innerHTML = '<option value="ALL">ทั้งหมด (All Regions)</option>';
+            data.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.id;
+                opt.innerText = item.name;
+                select.appendChild(opt);
+            });
+            // คงค่าเดิมที่เลือกไว้ (ถ้ามี)
+            if (Array.from(select.options).some(o => o.value === currentVal)) {
+                select.value = currentVal;
+            }
+        }
+
+        // ฟังก์ชันประมวลผลตัวกรองทั้งหมด (Dropdown + Search Box)
+        window.applyFilters = function () {
+            const searchVal = (document.getElementById('table-search')?.value || '').toLowerCase().trim();
+            const regionVal = document.getElementById('filter-region')?.value || 'ALL';
+
+            currentData = allParsedData.filter(item => {
+                const matchSearchMain = item.name.toLowerCase().includes(searchVal) || item.id.toLowerCase().includes(searchVal);
+                const matchSearchSub = item.subItems && item.subItems.some(sub => sub.name.toLowerCase().includes(searchVal));
+                const matchSearch = matchSearchMain || matchSearchSub;
+
                 const matchRegion = regionVal === 'ALL' || item.id === regionVal;
-                const matchSearch = item.name.toLowerCase().includes(searchVal) || item.id.toLowerCase().includes(searchVal);
-                return matchRegion && matchSearch;
+
+                return matchSearch && matchRegion;
             });
 
-            currentData = result;
             applySorting();
             renderTable(currentData);
             updateKPIs(currentData);
             updateCharts(currentData);
+        };
 
-            setLoadingState(false, false);
-        }
-
+        // ตัวคุมสถานะ UI Loading
         function setLoadingState(isLoading, isSuccess = false) {
             const overlay = document.getElementById('kpi-loading-overlay');
-            const statusText = document.getElementById('status-text');
             const refreshIcon = document.getElementById('refresh-icon');
             const statusDot = document.getElementById('status-dot');
 
             if (isLoading) {
                 if (overlay) overlay.classList.remove('hidden');
-                if (statusText) statusText.innerText = 'กำลังโหลดข้อมูล...';
                 if (refreshIcon) refreshIcon.classList.add('animate-spin');
                 if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-amber-500 mr-1.5 animate-pulse';
             } else {
                 if (overlay) overlay.classList.add('hidden');
-                if (statusText) statusText.innerText = isSuccess ? 'เชื่อมต่อ API สำเร็จ (Live Data)' : 'แสดงผลด้วย Mock Data';
                 if (refreshIcon) refreshIcon.classList.remove('animate-spin');
                 if (statusDot) statusDot.className = isSuccess
                     ? 'w-2 h-2 rounded-full bg-emerald-500 mr-1.5'
@@ -523,12 +584,33 @@ public class DownloadReportController : ControllerBase
             }
         }
 
+        /* =======================================================
+           ฟังก์ชันการแสดงผล UI (กราฟ, ตาราง, KPI)
+           ======================================================= */
         window.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
             initCharts();
             setupEventListeners();
-            fetchRegionalDataFromBackend();
+            // เริ่มโหลดข้อมูล
+            fetchLastUpdateDate();
+            fetchExcelDataToMainTable();
         });
+
+        // ฟังก์ชันดึงวันที่จาก appsettings.json ผ่าน C# API
+        async function fetchLastUpdateDate() {
+            try {
+                const response = await fetch('/api/DownloadReport/last-update');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('lbl-last-update').innerText = data.date;
+                } else {
+                    document.getElementById('lbl-last-update').innerText = 'ไม่สามารถดึงวันที่ได้';
+                }
+            } catch (error) {
+                console.warn('API Error (กำลังใช้ข้อมูลจำลอง):', error);
+                document.getElementById('lbl-last-update').innerText = '10 กันยายน 2026 (Preview)';
+            }
+        }
 
         function initCharts() {
             const ctxBar = document.getElementById('regionBarChart').getContext('2d');
@@ -536,20 +618,17 @@ public class DownloadReportController : ControllerBase
                 type: 'bar',
                 data: {
                     labels: [], datasets: [
-                        { label: 'ยอดดาวน์โหลดจริง (Actual)', data: [], backgroundColor: '#0D47A1', borderRadius: 6 },
-                        { label: 'เป้าหมาย (Target)', data: [], backgroundColor: '#e2e8f0', borderRadius: 6 }
+                        { label: 'ยอดดาวน์โหลดจริง', data: [], backgroundColor: '#002169', borderRadius: 6 },
+                        { label: 'เป้าหมาย (70% ของพนักงาน)', data: [], backgroundColor: '#e2e8f0', borderRadius: 6 }
                     ]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { position: 'top' } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
             });
 
             const ctxPie = document.getElementById('regionSharePieChart').getContext('2d');
             pieChart = new Chart(ctxPie, {
                 type: 'doughnut',
-                data: { labels: [], datasets: [{ data: [], backgroundColor: ['#0D47A1', '#2196F3', '#90CAF9', '#E3F2FD', '#0284c7', '#0ea5e9', '#38bdf8', '#10b981', '#f59e0b', '#ef4444'] }] },
+                data: { labels: [], datasets: [{ data: [], backgroundColor: ['#002169', '#537ACF', '#99B9FF', '#CCDCFF', '#0284c7', '#0ea5e9', '#38bdf8', '#10b981', '#f59e0b', '#ef4444'] }] },
                 options: { responsive: true, maintainAspectRatio: false }
             });
         }
@@ -561,85 +640,73 @@ public class DownloadReportController : ControllerBase
             barChart.update();
 
             pieChart.data.labels = data.map(d => d.name ? d.name.split(' - ')[0] : d.id);
-            pieChart.data.datasets[0].data = data.map(d => d.downloads);
+            pieChart.data.datasets[0].data = data.map(d => d.staffCount); // พายชาร์ตโชว์สัดส่วนพนักงาน
             pieChart.update();
         }
 
         function renderTable(data) {
             const tbody = document.getElementById('region-table-body');
+            if (!tbody) return;
             tbody.innerHTML = '';
 
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">ไม่พบข้อมูลที่ตรงกับเงื่อนไขตัวกรอง</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">ไม่พบข้อมูล หรือไฟล์ว่างเปล่า</td></tr>`;
                 document.getElementById('table-summary-count').innerText = 'แสดงข้อมูล 0 รายการ';
                 return;
             }
 
             data.forEach(item => {
                 const rate = item.target > 0 ? ((item.downloads / item.target) * 100).toFixed(1) : 0;
-                let badgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
-                let statusText = 'บรรลุเป้าหมาย';
-
-                if (rate < 85) { badgeClass = 'bg-rose-50 text-rose-700 border-rose-200'; statusText = 'ต่ำกว่าเป้า'; }
-                else if (rate < 100) { badgeClass = 'bg-amber-50 text-amber-700 border-amber-200'; statusText = 'ใกล้เคียงเป้า'; }
+                let badgeClass = rate >= 100 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : (rate > 0 ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-500 border-slate-200');
+                let statusText = rate >= 100 ? 'บรรลุเป้าหมาย' : (rate > 0 ? 'กำลังดำเนินการ' : 'รอเริ่มดาวน์โหลด');
 
                 const hasSub = item.subItems && item.subItems.length > 0;
 
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50/80 transition-colors border-b border-slate-100/60';
+                tr.className = 'hover:bg-slate-50/80 transition-colors border-b border-slate-200 bg-white';
 
                 // Toggle Button for Sub-Items
-                let toggleHtml = '';
-                if (hasSub) {
-                    toggleHtml = `<button onclick="toggleSubRows('${item.id}')" class="mr-2 text-slate-400 hover:text-dotnet-600 focus:outline-none transition-transform duration-200" id="icon-${item.id}">
-                                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                                  </button>`;
-                } else {
-                    toggleHtml = `<span class="w-6 inline-block"></span>`;
-                }
+                let toggleHtml = hasSub
+                    ? `<button onclick="toggleSubRows('${item.id}')" class="mr-2 text-slate-400 hover:text-dotnet-600 focus:outline-none transition-transform duration-200" id="icon-${item.id}">
+                        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                       </button>`
+                    : `<span class="w-6 inline-block"></span>`;
 
                 tr.innerHTML = `
                     <td class="py-3 px-4 font-semibold text-slate-900 flex items-center whitespace-nowrap">
                         ${toggleHtml} ${item.id}
                     </td>
-                    <td class="py-3 px-4 font-medium text-slate-700">${item.name}</td>
-                    <td class="py-3 px-4 text-right font-medium text-blue-600">${(item.staffCount || 0).toLocaleString()}</td>
-                    <td class="py-3 px-4 text-right font-semibold text-slate-900">${(item.downloads || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 font-bold text-slate-800">${item.name}</td>
+                    <td class="py-3 px-4 text-right font-bold text-blue-600">${(item.staffCount || 0).toLocaleString()}</td>
+                    <td class="py-3 px-4 text-right font-semibold text-red-600">${(item.downloads || 0).toLocaleString()}</td>
                     <td class="py-3 px-4 text-right text-slate-500">${(item.target || 0).toLocaleString()}</td>
-                    <td class="py-3 px-4 text-right font-bold ${rate >= 100 ? 'text-emerald-600' : 'text-slate-700'}">${rate}%</td>
+                    <td class="py-3 px-4 text-right font-bold ${rate >= 100 ? 'text-emerald-600' : 'text-slate-600'}">${rate}%</td>
                     <td class="py-3 px-4 text-center">
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium border ${badgeClass}">
-                            ${statusText}
-                        </span>
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium border ${badgeClass}">${statusText}</span>
                     </td>
                 `;
                 tbody.appendChild(tr);
 
-                // Render Sub-items (Hidden initially)
+                // Render Sub-items
                 if (hasSub) {
                     item.subItems.forEach(sub => {
-                        // คำนวณเปอร์เซ็นต์และสถานะสำหรับแถวย่อย
                         const subRate = sub.target > 0 ? ((sub.downloads / sub.target) * 100).toFixed(1) : 0;
-                        let subBadge = 'bg-emerald-50 text-emerald-700 border-emerald-200';
-                        let subStatus = 'บรรลุเป้าหมาย';
-                        if (subRate < 85) { subBadge = 'bg-rose-50 text-rose-700 border-rose-200'; subStatus = 'ต่ำกว่าเป้า'; }
-                        else if (subRate < 100) { subBadge = 'bg-amber-50 text-amber-700 border-amber-200'; subStatus = 'ใกล้เคียงเป้า'; }
+                        let subBadge = subRate >= 100 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : (subRate > 0 ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-50 text-slate-400 border-slate-200');
+                        let subStatus = subRate >= 100 ? 'บรรลุ' : (subRate > 0 ? 'กำลังดำเนินการ' : 'รอเริ่ม');
 
                         const subTr = document.createElement('tr');
-                        subTr.className = `sub-row-${item.id} hidden bg-slate-50/60 border-b border-slate-100/50 transition-all`;
+                        subTr.className = `sub-row-${item.id} hidden bg-slate-50/50 border-b border-slate-100/50`;
                         subTr.innerHTML = `
                             <td class="py-2.5 px-4 font-medium text-slate-500 pl-12 text-[11px] whitespace-nowrap">
-                                <i data-lucide="corner-down-right" class="w-3.5 h-3.5 inline mr-1 text-slate-400"></i> ${sub.id}
+                                <i data-lucide="corner-down-right" class="w-3 h-3 inline mr-1 text-slate-400"></i> ${sub.id}
                             </td>
-                            <td class="py-2.5 px-4 font-medium text-slate-600 text-[11.5px]">${sub.name}</td>
-                            <td class="py-2.5 px-4 text-right font-medium text-blue-500/80 text-[11.5px]">${(sub.staffCount || 0).toLocaleString()}</td>
-                            <td class="py-2.5 px-4 text-right font-semibold text-slate-700 text-[11.5px]">${(sub.downloads || 0).toLocaleString()}</td>
-                            <td class="py-2.5 px-4 text-right text-slate-500 text-[11.5px]">${(sub.target || 0).toLocaleString()}</td>
-                            <td class="py-2.5 px-4 text-right font-bold text-[11.5px] ${subRate >= 100 ? 'text-emerald-500' : 'text-slate-600'}">${subRate}%</td>
+                            <td class="py-2.5 px-4 font-medium text-slate-600 text-xs">${sub.name}</td>
+                            <td class="py-2.5 px-4 text-right font-medium text-blue-500/80 text-xs">${(sub.staffCount || 0).toLocaleString()}</td>
+                            <td class="py-2.5 px-4 text-right font-medium text-slate-600 text-xs">${(sub.downloads || 0).toLocaleString()}</td>
+                            <td class="py-2.5 px-4 text-right text-slate-400 text-xs">${(sub.target || 0).toLocaleString()}</td>
+                            <td class="py-2.5 px-4 text-right font-semibold text-xs ${subRate >= 100 ? 'text-emerald-500' : 'text-slate-500'}">${subRate}%</td>
                             <td class="py-2.5 px-4 text-center">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium border ${subBadge}">
-                                    ${subStatus}
-                                </span>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] border ${subBadge}">${subStatus}</span>
                             </td>
                         `;
                         tbody.appendChild(subTr);
@@ -647,14 +714,15 @@ public class DownloadReportController : ControllerBase
                 }
             });
 
-            document.getElementById('table-summary-count').innerText = `แสดงข้อมูล ${data.length} รายการหลัก`;
-            lucide.createIcons(); // Render icons for the new rows
+            if (document.getElementById('table-summary-count')) {
+                document.getElementById('table-summary-count').innerText = `แสดงข้อมูล ${data.length} รายการหลัก (Item)`;
+            }
+            if (window.lucide) lucide.createIcons();
         }
 
         window.toggleSubRows = function (parentId) {
             const rows = document.querySelectorAll(`.sub-row-${parentId}`);
             const icon = document.getElementById(`icon-${parentId}`);
-
             let isExpanding = false;
             rows.forEach(row => {
                 if (row.classList.contains('hidden')) {
@@ -664,36 +732,39 @@ public class DownloadReportController : ControllerBase
                     row.classList.add('hidden');
                 }
             });
-
-            if (icon) {
-                icon.style.transform = isExpanding ? 'rotate(-180deg)' : 'rotate(0deg)';
-            }
+            if (icon) icon.style.transform = isExpanding ? 'rotate(-180deg)' : 'rotate(0deg)';
         };
 
         function updateKPIs(data) {
-            if (!data || data.length === 0) {
-                document.getElementById('kpi-total-downloads').innerText = "0";
-                document.getElementById('kpi-target-rate').innerText = "0%";
-                document.getElementById('kpi-target-bar').style.width = "0%";
-                document.getElementById('kpi-active-regions').innerText = "0";
-                document.getElementById('kpi-top-region').innerText = "-";
-                document.getElementById('kpi-top-region-val').innerText = "0 ครั้ง";
-                return;
-            }
-
-            const total = data.reduce((acc, curr) => acc + (curr.downloads || 0), 0);
+            const totalDownloads = data.reduce((acc, curr) => acc + (curr.downloads || 0), 0);
+            const totalStaff = data.reduce((acc, curr) => acc + (curr.staffCount || 0), 0);
             const totalTarget = data.reduce((acc, curr) => acc + (curr.target || 0), 0);
-            const rate = totalTarget > 0 ? ((total / totalTarget) * 100).toFixed(1) : 0;
+            const rate = totalTarget > 0 ? ((totalDownloads / totalTarget) * 100).toFixed(1) : 0;
 
-            document.getElementById('kpi-total-downloads').innerText = total.toLocaleString();
-            document.getElementById('kpi-target-rate').innerText = rate + '%';
-            document.getElementById('kpi-target-bar').style.width = Math.min(rate, 100) + '%';
-            document.getElementById('kpi-active-regions').innerText = `${data.length}`;
+            if (document.getElementById('kpi-total-downloads')) document.getElementById('kpi-total-downloads').innerText = totalDownloads.toLocaleString();
+            if (document.getElementById('kpi-total-staff')) document.getElementById('kpi-total-staff').innerText = totalStaff.toLocaleString();
+            if (document.getElementById('kpi-target-rate')) document.getElementById('kpi-target-rate').innerText = rate + '%';
+            if (document.getElementById('kpi-target-bar')) document.getElementById('kpi-target-bar').style.width = Math.min(rate, 100) + '%';
 
-            const sortedData = [...data].sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
-            const topItem = sortedData[0];
-            document.getElementById('kpi-top-region').innerText = topItem.name || topItem.id;
-            document.getElementById('kpi-top-region-val').innerText = (topItem.downloads || 0).toLocaleString() + ' ครั้ง';
+            // อัปเดตการ์ดเขตพื้นที่ยอดสูงสุด (KPI 4)
+            if (document.getElementById('kpi-top-region')) {
+                if (data && data.length > 0) {
+                    // เรียงข้อมูลจากดาวน์โหลดมากไปน้อย (ถ้าดาวน์โหลดเท่ากัน ให้เรียงตามจำนวนพนักงาน)
+                    const sortedData = [...data].sort((a, b) => {
+                        if (b.downloads !== a.downloads) return (b.downloads || 0) - (a.downloads || 0);
+                        return (b.staffCount || 0) - (a.staffCount || 0);
+                    });
+                    document.getElementById('kpi-top-region').innerText = sortedData[0].name;
+                    if (document.getElementById('kpi-top-region-val')) {
+                        document.getElementById('kpi-top-region-val').innerText = (sortedData[0].downloads || 0).toLocaleString() + ' ครั้ง';
+                    }
+                } else {
+                    document.getElementById('kpi-top-region').innerText = '-';
+                    if (document.getElementById('kpi-top-region-val')) {
+                        document.getElementById('kpi-top-region-val').innerText = '0 ครั้ง';
+                    }
+                }
+            }
         }
 
         function applySorting() {
@@ -728,88 +799,63 @@ public class DownloadReportController : ControllerBase
         };
 
         function setupEventListeners() {
-            const addListener = (id, event, handler) => {
-                const el = document.getElementById(id);
-                if (el) el.addEventListener(event, handler);
-            };
-
-            addListener('filter-region', 'change', fetchRegionalDataFromBackend);
-            addListener('filter-product', 'change', fetchRegionalDataFromBackend);
-
-            let debounceTimer;
             const searchInput = document.getElementById('table-search');
+            let debounceTimer;
             if (searchInput) {
                 searchInput.addEventListener('input', () => {
                     clearTimeout(debounceTimer);
-                    debounceTimer = setTimeout(fetchRegionalDataFromBackend, 300);
+                    debounceTimer = setTimeout(applyFilters, 300); // เปลี่ยนให้เรียกใช้ applyFilters
                 });
             }
 
-            addListener('fetch-remote-btn', 'click', fetchRegionalDataFromBackend);
+            const regionFilter = document.getElementById('filter-region');
+            if (regionFilter) {
+                regionFilter.addEventListener('change', applyFilters); // เมื่อเปลี่ยน Dropdown ให้กรองข้อมูล
+            }
 
-            addListener('reset-filter-btn', 'click', () => {
-                const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
-                setVal('filter-region', 'ALL');
-                setVal('filter-product', 'ALL');
-                setVal('table-search', '');
-                fetchRegionalDataFromBackend();
-            });
+            const fetchBtn = document.getElementById('fetch-remote-btn');
+            if (fetchBtn) fetchBtn.addEventListener('click', fetchExcelDataToMainTable);
 
-            addListener('export-csv-btn', 'click', () => {
-                if (!currentData || currentData.length === 0) {
-                    alert('ไม่มีข้อมูลสำหรับส่งออก');
-                    return;
-                }
-                let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-                csvContent += "รหัสเขต,ชื่อเขตพื้นที่,จำนวนบุคลากร (คน),ยอดดาวน์โหลด (ครั้ง),เป้าหมาย (ครั้ง),อัตราการบรรลุ (%)\n";
-
-                currentData.forEach(row => {
-                    const rate = row.target > 0 ? ((row.downloads / row.target) * 100).toFixed(1) : 0;
-                    csvContent += `"${row.id}","${row.name}",${row.staffCount},${row.downloads},${row.target},${rate}%\n`;
-
-                    // เพิ่ม Sub-items ลงในไฟล์ CSV ด้วย (นำตัวเลขเป้าหมายและความสำเร็จกลับมา)
-                    if (row.subItems && row.subItems.length > 0) {
-                        row.subItems.forEach(sub => {
-                            const subRate = sub.target > 0 ? ((sub.downloads / sub.target) * 100).toFixed(1) : 0;
-                            csvContent += `"${sub.id}","${sub.name}",${sub.staffCount},${sub.downloads},${sub.target},${subRate}%\n`;
-                        });
-                    }
+            const resetBtn = document.getElementById('reset-filter-btn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    if (searchInput) searchInput.value = '';
+                    if (regionFilter) regionFilter.value = 'ALL';
+                    applyFilters(); // รีเซ็ตแล้วกรองข้อมูลใหม่
                 });
+            }
 
-                const encodedUri = encodeURI(csvContent);
-                const link = document.createElement("a");
-                link.setAttribute("href", encodedUri);
-                link.setAttribute("download", `Download_Report_${new Date().toISOString().slice(0, 10)}.csv`);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
+            const exportBtn = document.getElementById('export-csv-btn');
+            if (exportBtn) {
+                exportBtn.addEventListener('click', () => {
+                    if (!currentData || currentData.length === 0) {
+                        alert('ไม่มีข้อมูลสำหรับส่งออก');
+                        return;
+                    }
+                    let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+                    csvContent += "รหัสเขต,ชื่อเขตพื้นที่/สังกัด,จำนวนพนักงาน,ยอดดาวน์โหลด,เป้าหมาย,ความสำเร็จ\n";
 
-            // Modals toggle
-            const codeModal = document.getElementById('dotnet-code-modal');
-            addListener('toggle-dotnet-code', 'click', () => codeModal?.classList.remove('hidden'));
-            addListener('close-code-modal', 'click', () => codeModal?.classList.add('hidden'));
+                    currentData.forEach(row => {
+                        const rate = row.target > 0 ? ((row.downloads / row.target) * 100).toFixed(1) : 0;
+                        csvContent += `"${row.id}","${row.name}",${row.staffCount},${row.downloads},${row.target},${rate}%\n`;
 
-            addListener('copy-code-btn', 'click', () => {
-                if (!codeModal) return;
-                const codeText = codeModal.querySelector('code')?.innerText || '';
-                const textarea = document.createElement('textarea');
-                textarea.value = codeText;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
+                        if (row.subItems && row.subItems.length > 0) {
+                            row.subItems.forEach(sub => {
+                                const subRate = sub.target > 0 ? ((sub.downloads / sub.target) * 100).toFixed(1) : 0;
+                                csvContent += `"${sub.id}","${sub.name}",${sub.staffCount},${sub.downloads},${sub.target},${subRate}%\n`;
+                            });
+                        }
+                    });
 
-                const btn = document.getElementById('copy-code-btn');
-                if (btn) {
-                    btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>คัดลอกเรียบร้อย!</span>`;
-                    lucide.createIcons();
-                    setTimeout(() => {
-                        btn.innerHTML = `<i data-lucide="copy" class="w-4 h-4"></i><span>คัดลอกโค้ด C#</span>`;
-                        lucide.createIcons();
-                    }, 2000);
-                }
-            });
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", `Report_Employees_${new Date().toISOString().slice(0, 10)}.csv`);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+            }
         }
     </script>
 </body>

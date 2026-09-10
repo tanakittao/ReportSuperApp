@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\data\\number_of_employees.xlsx",
+      "PackagePath": "staticwebassets\\data\\number_of_employees.xlsx"
+    },
+    {
       "Id": "D:\\งาน\\ข้อมูลAI\\SuperApp\\EnterpriseDashboard\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
